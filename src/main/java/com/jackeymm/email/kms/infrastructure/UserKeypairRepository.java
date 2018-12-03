@@ -9,9 +9,9 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserKeypairRepository {
 
-    @Insert("insert into user_keypair (temail, token, public_key, private_key) values(#{temail}, #{token}, #{keyPair.publicKey}, #{keyPair.privateKey})")
-    int register(@Param("temail") String temail, @Param("token") String token, @Param("keyPair") KeyPair keyPair);
+    @Insert("insert into user_keypair (temail, token, public_key, private_key) values(#{keyPair.temail}, #{keyPair.token}, #{keyPair.publicKey}, #{keyPair.privateKey})")
+    int register(@Param("keyPair") KeyPair keyPair);
 
-    @Select("select * from user_keypair where temail = #{temail} and token = #{token}")
-    KeyPair getByTemail(String temail, String token);
+    @Select("select id, temail, token, public_key as publicKey, private_key as privateKey, create_time as createTime, update_time as updateTime from user_keypair where temail = #{keyPair.temail} and token = #{keyPair.token}")
+    KeyPair getByTemail(@Param("keyPair") KeyPair keyPair);
 }

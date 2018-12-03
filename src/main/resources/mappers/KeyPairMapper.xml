@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jackeymm.email.kms.infrastructure.UserKeypairRepository">
+    <resultMap id="BaseResultMap" type="com.jackeymm.email.kms.KeyPair">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="temail" jdbcType="VARCHAR" property="temail"/>
+        <result column="domain" jdbcType="VARCHAR" property="domain"/>
+        <result column="public_key" jdbcType="VARCHAR" property="publicKey"/>
+        <result column="private_key" jdbcType="VARCHAR" property="privteKey"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+    </resultMap>
+
+</mapper>

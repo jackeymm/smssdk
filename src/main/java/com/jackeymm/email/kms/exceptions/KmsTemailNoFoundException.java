@@ -1,4 +1,4 @@
 package com.jackeymm.email.kms.exceptions;
 
-public class KmsTemailNoFoundException extends Throwable {
+public class KmsTemailNoFoundException extends RuntimeException {
 }
