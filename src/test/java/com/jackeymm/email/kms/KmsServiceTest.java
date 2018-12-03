@@ -4,10 +4,8 @@ import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,9 +13,9 @@ import static org.mockito.Mockito.when;
 
 public class KmsServiceTest {
 
-    private final ChiperAlgorithm algorithm = Mockito.mock(ChiperAlgorithm.class);
-    private final PublicKey publicKey = Mockito.mock(PublicKey.class);
-    private final PrivateKey privateKey = Mockito.mock(PrivateKey.class);
+    private final CipherAlgorithm algorithm = Mockito.mock(CipherAlgorithm.class);
+    private final String publicKey = "publicKey";
+    private final String privateKey = "privateKey";
     private final KmsRedisService kmsRedisService = Mockito.mock(KmsRedisService.class);
     private final KmsService kmsService = new KmsService(algorithm, kmsRedisService);
     private final Entry entry = Mockito.mock(Entry.class);
@@ -40,28 +38,16 @@ public class KmsServiceTest {
     @Test
     public void queryKeyPairNotFound() {
         when(kmsRedisService.query(any(String.class))).thenReturn(null);
-        Entry<String, String> entry = kmsService.queryKeyPair("a@t.email");
-        assertThat(entry).isNull();
+        Optional<KeyPair> entry = kmsService.queryKeyPair("a@t.email");
+        assertThat(entry).isNotPresent();
     }
 
     @Test
     public void queryKeyPairSuccessfully() {
-        when(kmsRedisService.query(any(String.class))).thenReturn(new Entry<String, String>() {
-            public String getKey() {
-                return null;
-            }
-
-            public String getValue() {
-                return publicKey.toString();
-            }
-
-            public String setValue(String value) {
-                return null;
-            }
-        });
-        KeyPairEntry entry = kmsService.queryKeyPair("a@t.email");
-        assertThat(entry).isNotNull();
-        assertThat(entry.getValue()).isEqualTo(publicKey.toString());
+        when(kmsRedisService.query(any(String.class))).thenReturn(new KeyPair(publicKey, privateKey));
+        Optional<KeyPair> entry = kmsService.queryKeyPair("a@t.email");
+        assertThat(entry).isPresent();
+        assertThat(entry.get().getPublic()).isEqualTo(publicKey);
 
     }
 

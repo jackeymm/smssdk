@@ -2,15 +2,14 @@ package com.jackeymm.email.kms;
 
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 
-import java.security.KeyPair;
-import java.util.Map.Entry;
+import java.util.Optional;
 
 public class KmsService {
 
-    private ChiperAlgorithm algorithm;
+    private CipherAlgorithm algorithm;
     private KmsRedisService kmsRedisService;
 
-    public KmsService(ChiperAlgorithm algorithm, KmsRedisService kmsRedisService) {
+    public KmsService(CipherAlgorithm algorithm, KmsRedisService kmsRedisService) {
         this.algorithm = algorithm;
         this.kmsRedisService = kmsRedisService;
     }
@@ -22,8 +21,8 @@ public class KmsService {
         return this.algorithm.generateKey();
     }
 
-    public Entry queryKeyPair(String temail) {
-        Entry entry = kmsRedisService.query(temail);
-        return entry;
+    public Optional<KeyPair> queryKeyPair(String temail) {
+        KeyPair entry = kmsRedisService.query(temail);
+        return Optional.ofNullable(entry);
     }
 }
