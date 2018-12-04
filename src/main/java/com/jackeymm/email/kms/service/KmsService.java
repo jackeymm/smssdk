@@ -1,15 +1,20 @@
-package com.jackeymm.email.kms;
+package com.jackeymm.email.kms.service;
 
-import com.jackeymm.email.kms.exceptions.KmsSystemException;
+import com.jackeymm.email.kms.KeyPair;
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 import com.jackeymm.email.kms.infrastructure.UserKeypairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class KmsService {
 
+    @Autowired
     private CipherAlgorithm algorithm;
+
+    @Autowired
     private KmsRedisService kmsRedisService;
 
     @Autowired

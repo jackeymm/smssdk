@@ -2,20 +2,17 @@ package com.jackeymm.email.kms.interfaces;
 
 
 import com.jackeymm.email.kms.KeyPair;
-import com.jackeymm.email.kms.KmsService;
 import com.jackeymm.email.kms.exceptions.KmsSystemException;
-import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
+import com.jackeymm.email.kms.service.KmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import org.springframework.util.MultiValueMap;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -31,16 +28,15 @@ public class UserKeyPairController {
     @ResponseStatus(HttpStatus.CREATED)
     Mono<Response<KeyPair>> register(ServerWebExchange exchange){
         exchange.getFormData().map(params -> {
-            ensureExists(params, TE_MAIL, TOKEN);
-
+            System.out.println("in");
             String token = params.getFirst(TOKEN);
             String temail = params.getFirst(TE_MAIL);
-            KeyPair keyPair = null;
-
-            keyPair = kmsService.register(token,temail);
+            KeyPair keyPair = kmsService.register(token,temail);
             return Response.ok(keyPair);
         });
-        throw new KmsSystemException();
+
+//        return Response.failed(HttpStatus.BAD_REQUEST, "register failed", null);
+        throw new KmsSystemException("register failed");
     }
 
     private void ensureExists(MultiValueMap<String, String> params, String... keys) {

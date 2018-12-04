@@ -1,23 +1,23 @@
 package com.jackeymm.email.kms.interfaces;
 
 import com.jackeymm.email.kms.KeyPair;
-import com.jackeymm.email.kms.KmsService;
+import com.jackeymm.email.kms.service.KmsService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-
-import javax.xml.ws.Response;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpMethod.POST;
@@ -44,8 +44,8 @@ public class UserKeyPairControllerTest {
     public void registerUserKeyPairFailed(){
 //        Mockito.when(kmsService.register(token,temail)).thenReturn(keyPair);
         HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof(token,temail);
-        ResponseEntity<Response<KeyPair>> response = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
-        Assertions.assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
     }
 
     private ParameterizedTypeReference<Response<KeyPair>> responseType() {

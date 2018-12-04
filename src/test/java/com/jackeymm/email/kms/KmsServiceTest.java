@@ -2,15 +2,16 @@ package com.jackeymm.email.kms;
 
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 import com.jackeymm.email.kms.infrastructure.UserKeypairRepository;
+import com.jackeymm.email.kms.service.CipherAlgorithm;
+import com.jackeymm.email.kms.service.KmsRedisService;
+import com.jackeymm.email.kms.service.KmsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Map.Entry;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
