@@ -27,24 +27,18 @@ public class UserKeyPairController {
     @PostMapping(value = "/register", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     Mono<Response<KeyPair>> register(ServerWebExchange exchange){
-        exchange.getFormData().map(params -> {
+        Response.failed(HttpStatus.BAD_REQUEST,"register 1", null);
+
+        return exchange.getFormData().map(params -> {
             System.out.println("in");
             String token = params.getFirst(TOKEN);
             String temail = params.getFirst(TE_MAIL);
+
             KeyPair keyPair = kmsService.register(token,temail);
+
             return Response.ok(keyPair);
         });
 
-//        return Response.failed(HttpStatus.BAD_REQUEST, "register failed", null);
-        throw new KmsSystemException("register failed");
-    }
-
-    private void ensureExists(MultiValueMap<String, String> params, String... keys) {
-        for (String key : keys) {
-            if (!params.containsKey(key)) {
-                throw new IllegalArgumentException("TeMail address or public key is invalid");
-            }
-        }
     }
 
 }

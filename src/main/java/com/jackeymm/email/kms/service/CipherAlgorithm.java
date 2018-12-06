@@ -9,6 +9,7 @@ public class CipherAlgorithm {
     public KeyPair generateKey(){
 
         System.out.println("generateKey~");
-        return null;
+
+        return new KeyPair(1L, "pubk","prik", "token", "temail",0L, 0L);
     }
 }

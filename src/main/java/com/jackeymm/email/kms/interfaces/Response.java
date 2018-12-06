@@ -20,6 +20,7 @@ public class Response<T> {
         this.code = status.value();
     }
 
+
     private Response(HttpStatus status, String message) {
         this.code = status.value();
         this.message = message;
@@ -43,11 +44,15 @@ public class Response<T> {
     }
 
     static <T> Response<T> ok(T body){
-        return new Response<>(OK);
+        return new Response<>(OK,"", body);
     }
 
     public static <T> Response<T> failed(HttpStatus status,String message,T body){
         return new Response<>(status, message, body);
+    }
+
+    public static Response<String> failed(HttpStatus status, String message) {
+        return new Response<>(status, message);
     }
 
     public Integer getCode() {

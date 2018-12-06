@@ -5,4 +5,8 @@ public class KmsSystemException extends RuntimeException {
     public KmsSystemException(String message){
         super(message);
     }
+
+    public KmsSystemException() {
+
+    }
 }

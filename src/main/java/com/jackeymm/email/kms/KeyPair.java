@@ -9,6 +9,16 @@ public class KeyPair {
     private final Long createTime;
     private final Long updateTime;
 
+    KeyPair(){
+        id = null;
+        privateKey = null;
+        updateTime = null;
+        publicKey = null;
+        token = null;
+        temail = null;
+        createTime = null;
+    }
+
     public KeyPair(Long id, String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
         this.id = id;
         this.publicKey = publicKey;

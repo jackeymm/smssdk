@@ -1,8 +1,10 @@
 package com.jackeymm.email.kms.service;
 
 import com.jackeymm.email.kms.KeyPair;
+import com.jackeymm.email.kms.exceptions.KmsSystemException;
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 import com.jackeymm.email.kms.infrastructure.UserKeypairRepository;
+import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,19 +30,17 @@ public class KmsService {
 
     public KeyPair register(String token, String temail) {
         if (!"syswin".equals(token)) {
-            throw new KmsTenantNoFoundException();
+            throw new KmsTenantNoFoundException("token is not exist~");
         }
         KeyPair keyPair = this.algorithm.generateKey();
 
         int result = userKeypairRepository.register(keyPair);
 
-        return keyPair;
-
-//        if(1 == result){
-//            return keyPair;
-//        }else{
-//            throw new KmsSystemException();
-//        }
+        if(1 == result){
+            return keyPair;
+        }else{
+            throw new KmsSystemException("register failed ~~");
+        }
     }
 
     public Optional<KeyPair> queryKeyPair(String temail) {
