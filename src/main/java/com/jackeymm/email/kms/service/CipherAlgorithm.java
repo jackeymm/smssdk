@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CipherAlgorithm {
-    public KeyPair generateKey(){
+    public KeyPair generateKey(String token, String temail){
 
-        System.out.println("generateKey~");
-
-        return new KeyPair(1L, "pubk","prik", "token", "temail",0L, 0L);
+        return new KeyPair(1L, "pubk","prik", token, temail,0L, 0L);
     }
 }

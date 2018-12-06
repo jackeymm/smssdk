@@ -10,13 +10,23 @@ public class KeyPair {
     private final Long updateTime;
 
     KeyPair(){
-        id = null;
-        privateKey = null;
-        updateTime = null;
-        publicKey = null;
-        token = null;
-        temail = null;
-        createTime = null;
+        this.id = null;
+        this.privateKey = null;
+        this.updateTime = null;
+        this.publicKey = null;
+        this.token = null;
+        this.temail = null;
+        this.createTime = null;
+    }
+
+    public KeyPair(String token, String temail){
+        this.id = null;
+        this.privateKey = null;
+        this.updateTime = null;
+        this.publicKey = null;
+        this.token = token;
+        this.temail = temail;
+        this.createTime = null;
     }
 
     public KeyPair(Long id, String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
@@ -55,5 +65,13 @@ public class KeyPair {
 
     public Long getId() {
         return id;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
     }
 }

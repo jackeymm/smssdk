@@ -13,5 +13,5 @@ public interface UserKeypairRepository {
     int register(@Param("keyPair") KeyPair keyPair);
 
     @Select("select id, temail, token, public_key as publicKey, private_key as privateKey, create_time as createTime, update_time as updateTime from user_keypair where temail = #{keyPair.temail} and token = #{keyPair.token}")
-    KeyPair getByTemail(@Param("keyPair") KeyPair keyPair);
+    KeyPair getByKeyPair(@Param("keyPair") KeyPair keyPair);
 }

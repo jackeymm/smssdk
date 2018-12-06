@@ -1,13 +1,10 @@
 package com.jackeymm.email.kms;
 
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
-import com.jackeymm.email.kms.infrastructure.UserKeypairRepository;
-import com.jackeymm.email.kms.service.CipherAlgorithm;
-import com.jackeymm.email.kms.service.KmsRedisService;
 import com.jackeymm.email.kms.service.KmsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,21 +12,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "spring.datasource.url=jdbc:h2:mem:kms;MODE=MYSQL")
+@SpringBootTest(webEnvironment = RANDOM_PORT,properties = "spring.datasource.url=jdbc:h2:mem:kms;MODE=MYSQL")
 @ActiveProfiles({"dark", "h2"})
 public class KmsServiceTest {
 
-    private final CipherAlgorithm algorithm = Mockito.mock(CipherAlgorithm.class);
-    private final String publicKey = "publicKey";
-    private final String privateKey = "privateKey";
-    private final KmsRedisService kmsRedisService = Mockito.mock(KmsRedisService.class);
-    private final UserKeypairRepository userKeypairRepository = Mockito.mock(UserKeypairRepository.class);
+    private final String token ="syswin";
+    private final String temail="a@temail";
 
-    private final KmsService kmsService = new KmsService(algorithm, kmsRedisService ,userKeypairRepository);
+    @Autowired
+    private KmsService kmsService;
 
     @Test(expected = KmsTenantNoFoundException.class)
     public void blowsUpWhenTokenVerificationFailed() {
@@ -38,27 +32,21 @@ public class KmsServiceTest {
 
     @Test
     public void shouldRegisterSuccessfully() {
-        when(algorithm.generateKey()).thenReturn(new KeyPair(1L, publicKey, privateKey, "token", "temail", 0L, 0L));
-        KeyPair keyPair = kmsService.register("syswin", "a@t.email");
-
+        KeyPair keyPair = kmsService.register(this.token, "av@temail");
         assertThat(keyPair).isNotNull();
-        assertThat(keyPair.getPublic()).isEqualTo(publicKey);
-        assertThat(keyPair.getPrivate()).isEqualTo(privateKey);
     }
 
     @Test
     public void queryKeyPairNotFound() {
-        when(kmsRedisService.query(any(String.class))).thenReturn(null);
-        Optional<KeyPair> entry = kmsService.queryKeyPair("a@t.email");
+        Optional<KeyPair> entry = kmsService.queryKeyPair(this.token, "a@t.email");
         assertThat(entry).isNotPresent();
     }
 
     @Test
     public void queryKeyPairSuccessfully() {
-        when(kmsRedisService.query(any(String.class))).thenReturn(new KeyPair(1L, publicKey, privateKey, "token", "temail", 0L, 0L));
-        Optional<KeyPair> entry = kmsService.queryKeyPair("a@t.email");
+        kmsService.register(token, temail);
+        Optional<KeyPair> entry = kmsService.queryKeyPair(token, temail);
         assertThat(entry).isPresent();
-        assertThat(entry.get().getPublic()).isEqualTo(publicKey);
 
     }
 
