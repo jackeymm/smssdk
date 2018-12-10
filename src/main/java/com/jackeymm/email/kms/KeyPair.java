@@ -1,7 +1,7 @@
 package com.jackeymm.email.kms;
 
 public class KeyPair {
-    private final Long id;
+    private Long id;
     private final String privateKey;
     private final String publicKey;
     private final String token;
@@ -83,5 +83,9 @@ public class KeyPair {
 
     public String getPublicKey() {
         return publicKey;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
