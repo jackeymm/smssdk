@@ -39,6 +39,16 @@ public class KeyPair {
         this.updateTime = updateTime;
     }
 
+    public KeyPair(String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
+        this.id = null;
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
+        this.token = token;
+        this.temail = temail;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public String getPublic() {
         return publicKey;
     }

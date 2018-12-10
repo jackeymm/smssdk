@@ -13,7 +13,7 @@ import java.util.Optional;
 public class KmsService {
 
     @Autowired
-    private CipherAlgorithm algorithm;
+    private CipherAlgorithmService algorithm;
 
     @Autowired
     private KmsRedisService kmsRedisService;
@@ -21,7 +21,7 @@ public class KmsService {
     @Autowired
     private UserKeypairRepository userKeypairRepository;
 
-    public KmsService(CipherAlgorithm algorithm, KmsRedisService kmsRedisService,UserKeypairRepository userKeypairRepository) {
+    public KmsService(CipherAlgorithmService algorithm, KmsRedisService kmsRedisService, UserKeypairRepository userKeypairRepository) {
         this.algorithm = algorithm;
         this.kmsRedisService = kmsRedisService;
         this.userKeypairRepository = userKeypairRepository;
@@ -29,7 +29,7 @@ public class KmsService {
 
     public KeyPair register(String token, String temail) {
         this.checkToken(token);
-        KeyPair keyPair = this.algorithm.generateKey(token, temail);
+        KeyPair keyPair = this.algorithm.generateKey(token, temail,"RSA");
 
         int result = userKeypairRepository.register(keyPair);
 
