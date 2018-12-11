@@ -21,7 +21,7 @@ public class CipherAlgorithmServiceTest {
 
     @Test
     public void generateKeyPairSuccessfully(){
-        KeyPair keyPair = cipherAlgorithmService.generateKey("syswin", "a@temail", this.RSA);
+        KeyPair keyPair = cipherAlgorithmService.generateKey("kmsToken", "a@temail", this.RSA);
         assertThat(keyPair).isNotNull();
         assertThat(keyPair.getPrivate()).isNotNull();
         assertThat(keyPair.getPublic()).isNotNull();
@@ -29,8 +29,8 @@ public class CipherAlgorithmServiceTest {
 
     @Test
     public void generateDifferentKeyPairByDifferentTemail(){
-        KeyPair keyPair1 = cipherAlgorithmService.generateKey("syswin", "a@temail", this.RSA);
-        KeyPair keyPair2 = cipherAlgorithmService.generateKey("syswin", "ab@temail", this.RSA);
+        KeyPair keyPair1 = cipherAlgorithmService.generateKey("kmsToken", "a@temail", this.RSA);
+        KeyPair keyPair2 = cipherAlgorithmService.generateKey("kmsToken", "ab@temail", this.RSA);
         assertThat(keyPair1).isNotNull();
         assertThat(keyPair2).isNotNull();
         assertThat(keyPair1.getPrivate()).isNotEqualTo(keyPair2.getPrivate());

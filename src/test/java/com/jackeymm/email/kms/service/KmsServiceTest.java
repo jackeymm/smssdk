@@ -19,7 +19,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles({"dark", "h2"})
 public class KmsServiceTest {
 
-    private final String token ="syswin";
+    private final String token ="kmsToken";
     private final String temail="a@temail";
 
     @Autowired

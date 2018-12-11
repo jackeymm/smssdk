@@ -59,7 +59,7 @@ public class KmsService {
     }
 
     private void checkToken(String token){
-        if (!"syswin".equals(token)) {
+        if (!"kmsToken".equals(token)) {
             throw new KmsTenantNoFoundException("token is not exist~");
         }
     }
