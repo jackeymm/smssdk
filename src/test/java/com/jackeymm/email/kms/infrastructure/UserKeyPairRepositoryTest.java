@@ -1,6 +1,6 @@
 package com.jackeymm.email.kms.infrastructure;
 
-import com.jackeymm.email.kms.KeyPair;
+import com.jackeymm.email.kms.domains.KeyPair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

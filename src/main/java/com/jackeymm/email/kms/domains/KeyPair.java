@@ -1,13 +1,35 @@
 package com.jackeymm.email.kms.domains;
 
-public class KeyPair {
+import java.io.Serializable;
+
+public class KeyPair implements Serializable {
     private Long id;
-    private String privateKey;
-    private String publicKey;
-    private String token;
-    private String temail;
-    private Long createTime;
-    private Long updateTime;
+    private final String privateKey;
+    private final String publicKey;
+    private final String token;
+    private final String temail;
+    private final Long createTime;
+    private final Long updateTime;
+
+    KeyPair(){
+        this.id = null;
+        this.privateKey = null;
+        this.updateTime = null;
+        this.publicKey = null;
+        this.token = null;
+        this.temail = null;
+        this.createTime = null;
+    }
+
+    public KeyPair(String token, String temail){
+        this.id = null;
+        this.privateKey = null;
+        this.updateTime = null;
+        this.publicKey = null;
+        this.token = token;
+        this.temail = temail;
+        this.createTime = null;
+    }
 
     public KeyPair(Long id, String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
         this.id = id;
@@ -19,59 +41,53 @@ public class KeyPair {
         this.updateTime = updateTime;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPrivateKey() {
-        return privateKey;
-    }
-
-    public void setPrivateKey(String privateKey) {
+    public KeyPair(String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
+        this.id = null;
+        this.publicKey = publicKey;
         this.privateKey = privateKey;
+        this.token = token;
+        this.temail = temail;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
     }
 
-    public String getPublicKey() {
+    public String getPublic() {
         return publicKey;
     }
 
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
+    public String getPrivate() {
+        return privateKey;
     }
 
     public String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public String getTemail() {
         return temail;
-    }
-
-    public void setTemail(String temail) {
-        this.temail = temail;
     }
 
     public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
     public Long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
+    public Long getId() {
+        return id;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

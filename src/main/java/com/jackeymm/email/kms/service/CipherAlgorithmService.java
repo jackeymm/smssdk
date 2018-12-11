@@ -1,7 +1,7 @@
 package com.jackeymm.email.kms.service;
 
 
-import com.jackeymm.email.kms.KeyPair;
+import com.jackeymm.email.kms.domains.KeyPair;
 import com.jackeymm.email.kms.exceptions.KmsGenerateKeyPiarParamCheckException;
 import com.jackeymm.email.kms.exceptions.KmsRSAGenerateException;
 import com.jackeymm.email.kms.util.RSAKeyPairUtil;

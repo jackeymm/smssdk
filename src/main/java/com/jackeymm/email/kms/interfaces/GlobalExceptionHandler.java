@@ -2,7 +2,6 @@ package com.jackeymm.email.kms.interfaces;
 
 import com.jackeymm.email.kms.exceptions.KmsTemailNoFoundException;
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
-import org.h2.jdbc.JdbcSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;

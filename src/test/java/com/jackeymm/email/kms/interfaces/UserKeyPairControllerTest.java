@@ -1,6 +1,6 @@
 package com.jackeymm.email.kms.interfaces;
 
-import com.jackeymm.email.kms.KeyPair;
+import com.jackeymm.email.kms.domains.KeyPair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,properties = "spring.datasource.url=jdbc:h2:mem:kms;MODE=MYSQL")
+//@SpringBootTest(webEnvironment = RANDOM_PORT,properties = "spring.datasource.url=jdbc:h2:me6379m:kms;MODE=MYSQL")
 @ActiveProfiles({"dark", "h2"})
 public class UserKeyPairControllerTest {
 
@@ -61,13 +62,13 @@ public class UserKeyPairControllerTest {
 
     @Test
     public void queryUserKeyPairByTemailFailed(){
-        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/{token},{temail}", GET, null, responseType(),"asdf", temail);
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/temails/{temail}", GET, null, responseType(),"asdf", temail);
         assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
     }
 
     @Test
     public void queryUserKeyPairByTemailNotFound(){
-        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/{token},{temail}", GET, null, responseType(),"syswin", temail);
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/temails/{temail}", GET, null, responseType(),"syswin", temail);
         assertThat(responseEntity.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
@@ -76,7 +77,7 @@ public class UserKeyPairControllerTest {
         HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("syswin","ab@temail");
         ResponseEntity<Response<KeyPair>> registerResponseEntity = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
         assertThat(registerResponseEntity.getStatusCode()).isEqualTo(CREATED);
-        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/{token},{temail}", GET, null, responseType(),"syswin", "ab@temail");
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/temails/{temail}", GET, null, responseType(),"syswin", "ab@temail");
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
         KeyPair keyPair = responseEntity.getBody().getData();

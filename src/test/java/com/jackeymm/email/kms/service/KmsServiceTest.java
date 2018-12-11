@@ -1,6 +1,6 @@
 package com.jackeymm.email.kms.service;
 
-import com.jackeymm.email.kms.KeyPair;
+import com.jackeymm.email.kms.domains.KeyPair;
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
