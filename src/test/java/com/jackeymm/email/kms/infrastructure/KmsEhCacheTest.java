@@ -28,10 +28,10 @@ public class KmsEhCacheTest {
     @Test
     public void userEhCacheGetValueSuccessfully(){
         KeyPair keyPair = new KeyPair("token","a@t.email");
-        kmsEhCache.put(this.key, keyPair);
+        kmsEhCache.setCache(this.key, keyPair);
 
 
-        Optional<KeyPair> ok = kmsEhCache.get(this.key);
+        Optional<KeyPair> ok = kmsEhCache.getCache(this.key);
         assertThat(ok).isPresent();
         assertThat(ok.get()).isEqualToComparingFieldByField(keyPair);
 

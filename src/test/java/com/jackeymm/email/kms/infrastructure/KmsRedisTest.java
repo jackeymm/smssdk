@@ -20,7 +20,7 @@ public class KmsRedisTest {
 
 
     @Autowired
-    private KmsRedis kmsRedis;
+    private KmsRedisImpl kmsRedis;
 
     @Test(expected = KmsCacheIsNullException.class)
     public void setRedisfaled(){

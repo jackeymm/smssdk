@@ -51,14 +51,6 @@ public class KeyPair implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getPublic() {
-        return publicKey;
-    }
-
-    public String getPrivate() {
-        return privateKey;
-    }
-
     public String getToken() {
         return token;
     }

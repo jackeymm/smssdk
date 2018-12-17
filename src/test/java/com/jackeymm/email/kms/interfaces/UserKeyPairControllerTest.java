@@ -84,8 +84,8 @@ public class UserKeyPairControllerTest {
 
         assertThat(keyPair.getTemail()).isEqualTo("ab@temail");
         assertThat(keyPair.getToken()).isEqualTo("kmsToken");
-        assertThat(keyPair.getPublic()).isNotNull();
-        assertThat(keyPair.getPrivate()).isNotNull();
+        assertThat(keyPair.getPublicKey()).isNotNull();
+        assertThat(keyPair.getPrivateKey()).isNotNull();
     }
 
 

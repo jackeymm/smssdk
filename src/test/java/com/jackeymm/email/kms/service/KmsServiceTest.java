@@ -2,6 +2,7 @@ package com.jackeymm.email.kms.service;
 
 import com.jackeymm.email.kms.domains.KeyPair;
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 public class KmsServiceTest {
 
     private final String token ="kmsToken";
-    private final String temail="a@temail";
+    private final String temail= RandomUtils.nextInt(1, 10000) + "@temail.com";
 
     @Autowired
     private KmsService kmsService;
@@ -32,7 +33,7 @@ public class KmsServiceTest {
 
     @Test
     public void shouldRegisterSuccessfully() {
-        KeyPair keyPair = kmsService.register(this.token, "av@temail");
+        KeyPair keyPair = kmsService.register(this.token, "a10@temail");
         assertThat(keyPair).isNotNull();
     }
 

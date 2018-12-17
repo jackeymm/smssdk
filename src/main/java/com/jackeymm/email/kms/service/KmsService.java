@@ -30,12 +30,12 @@ public class KmsService {
 
     public KeyPair register(String token, String temail) {
         this.checkToken(token);
-        KeyPair keyPair = this.algorithm.generateKey(token, temail,"RSA");
+        KeyPair keyPair = this.algorithm.generateKey(token, temail);
 
         int result = userKeypairRepository.register(keyPair);
 
         if(1 == result){
-            kmsCache.setCache(keyPair);
+            kmsCache.setCache(keyPair.getTemail(), keyPair);
             return keyPair;
         }else{
             throw new KmsSystemException("register failed ~~");
@@ -49,7 +49,7 @@ public class KmsService {
         if(!olCache.isPresent()){
             KeyPair result = userKeypairRepository.getByKeyPair(keyPair);
             if(!ObjectUtils.isEmpty(result)){
-                kmsCache.setCache(keyPair);
+                kmsCache.setCache(keyPair.getTemail(), keyPair);
             }
             return Optional.ofNullable(result);
         }else{

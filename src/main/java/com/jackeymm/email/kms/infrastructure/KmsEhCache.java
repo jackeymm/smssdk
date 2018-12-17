@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class KmsEhCache<K, V> {
+public class KmsEhCache<K, V> implements KCache<K, V> {
 
     private CacheManager cacheManager;
     private static final String CACHE_NAME = "EhCache-kms";
@@ -28,14 +28,6 @@ public class KmsEhCache<K, V> {
         this.cache = createCache(this.cacheName,entries, keyType, valueType, expiryPolicy);
     }
 
-    public void put(K key, V value) {
-        cache.put(key, value);
-    }
-
-    public Optional<V> get(K key) {
-        return Optional.ofNullable(cache.get(key));
-    }
-
     private Cache<K, V> createCache(String cacheName, int entries, Class<K> key,Class<V> value, ExpiryPolicy<? super K, ? super V> expiryPolicy){
         CacheConfiguration<K, V> cacheConfiguration =
                 CacheConfigurationBuilder.
@@ -46,4 +38,14 @@ public class KmsEhCache<K, V> {
         return cacheManager.createCache(cacheName, cacheConfiguration);
     }
 
+    @Override
+    public boolean setCache(K key, V value) {
+        cache.put(key, value);
+        return true;
+    }
+
+    @Override
+    public Optional getCache(K key) {
+        return Optional.ofNullable(cache.get(key));
+    }
 }

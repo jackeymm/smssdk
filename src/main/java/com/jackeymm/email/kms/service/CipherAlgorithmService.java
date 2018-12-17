@@ -12,7 +12,11 @@ import java.util.Map;
 
 @Service
 public class CipherAlgorithmService {
-    public KeyPair generateKey(String token, String temail,String algorithm){
+
+//    TODO:当算法需要变幻时，在此处调整算法入参。可添加至配置文件中进行管理，或者添加选算法的策略
+    private String algorithm = "RSA";
+
+    public KeyPair generateKey(String token, String temail){
         this.checkParam(token, temail);
         try {
             String publicKey="";
@@ -23,6 +27,7 @@ public class CipherAlgorithmService {
                     publicKey = RSAKeyPairUtil.getPublicKeyStr(keyPairMap);
                     privateKey = RSAKeyPairUtil.getPrivateKeyStr(keyPairMap);
                     break;
+//              TODO:当添加算法时在此处添加逻辑
             }
             long now = System.currentTimeMillis();
             return new KeyPair(publicKey, privateKey, token, temail, now, now);

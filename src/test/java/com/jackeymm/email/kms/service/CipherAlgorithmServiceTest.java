@@ -16,25 +16,25 @@ public class CipherAlgorithmServiceTest {
 
     @Test(expected = KmsGenerateKeyPiarParamCheckException.class)
     public void generateKeyPairFailed(){
-        cipherAlgorithmService.generateKey(null, null, null);
+        cipherAlgorithmService.generateKey(null, null);
     }
 
     @Test
     public void generateKeyPairSuccessfully(){
-        KeyPair keyPair = cipherAlgorithmService.generateKey("kmsToken", "a@temail", this.RSA);
+        KeyPair keyPair = cipherAlgorithmService.generateKey("kmsToken", "a@temail");
         assertThat(keyPair).isNotNull();
-        assertThat(keyPair.getPrivate()).isNotNull();
-        assertThat(keyPair.getPublic()).isNotNull();
+        assertThat(keyPair.getPrivateKey()).isNotNull();
+        assertThat(keyPair.getPublicKey()).isNotNull();
     }
 
     @Test
     public void generateDifferentKeyPairByDifferentTemail(){
-        KeyPair keyPair1 = cipherAlgorithmService.generateKey("kmsToken", "a@temail", this.RSA);
-        KeyPair keyPair2 = cipherAlgorithmService.generateKey("kmsToken", "ab@temail", this.RSA);
+        KeyPair keyPair1 = cipherAlgorithmService.generateKey("kmsToken", "a@temail");
+        KeyPair keyPair2 = cipherAlgorithmService.generateKey("kmsToken", "ab@temail");
         assertThat(keyPair1).isNotNull();
         assertThat(keyPair2).isNotNull();
-        assertThat(keyPair1.getPrivate()).isNotEqualTo(keyPair2.getPrivate());
-        assertThat(keyPair1.getPublic()).isNotEqualTo(keyPair2.getPublic());
+        assertThat(keyPair1.getPrivateKey()).isNotEqualTo(keyPair2.getPrivateKey());
+        assertThat(keyPair1.getPublicKey()).isNotEqualTo(keyPair2.getPublicKey());
 
 
     }

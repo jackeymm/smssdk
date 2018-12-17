@@ -11,39 +11,39 @@ import java.util.Optional;
 import static org.ehcache.config.builders.ExpiryPolicyBuilder.timeToLiveExpiration;
 
 @Service
-public class KmsCache<T> {
+public class KmsCache<K, V> implements KCache<K, V> {
 
     @Autowired
-    private KmsRedis kmsRedis;
+    private KmsRedisImpl kmsRedis;
 
     private KmsEhCache kmsEhCache;
 
 
     public KmsCache(){
-        this.kmsEhCache = new KmsEhCache(10, String.class, KeyPair.class,timeToLiveExpiration(Duration.ofDays(1)));
+        this.kmsEhCache = new KmsEhCache(10, String.class, KeyPair.class,timeToLiveExpiration(Duration.ofSeconds(1000)));
     }
 
-    public boolean setCache(T data){
+    public boolean setCache(K key, V data){
         if(null == data){
             throw new KmsCacheIsNullException("cache is null");
         }
         if(data instanceof KeyPair){
-            kmsRedis.setCache(((KeyPair) data).getTemail(), data);
+            kmsRedis.setCache(key, data);
 
-            kmsEhCache.put("test", data);
+            kmsEhCache.setCache("test", data);
 
-            Optional ol = kmsEhCache.get("test");
+            Optional ol = kmsEhCache.getCache("test");
             System.out.println(ol.isPresent());
         }
         return true;
     }
 
-    public Optional getCache(String cacheKey){
-        Optional<KeyPair> result = kmsEhCache.get(cacheKey);
+    public Optional getCache(K cacheKey){
+        Optional<KeyPair> result = kmsEhCache.getCache(cacheKey);
         if(!result.isPresent()){
             result = kmsRedis.getCache(cacheKey);
             if(result.isPresent()){
-                kmsEhCache.put(cacheKey, result.get());
+                kmsEhCache.setCache(cacheKey, result.get());
             }
         }
         return  result;
