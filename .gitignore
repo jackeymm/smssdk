@@ -19,7 +19,6 @@ bin/
 log/
 target/
 
-# Syswin
 disconf/
 logs/
 
