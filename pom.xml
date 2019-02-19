@@ -5,25 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jackeymm</groupId>
-    <artifactId>sms-sdk</artifactId>
+    <artifactId>sms-server</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
 
     <properties>
         <pact.version>3.5.20</pact.version>
         <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencyManagement>
@@ -38,6 +29,32 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+
+        <!-- spring-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--mybatis-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!--test-->
         <!--h2-->
         <dependency>
             <groupId>com.h2database</groupId>
@@ -49,8 +66,21 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
-        <!--spring boot -->
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -121,12 +151,6 @@
         </dependency>
         <dependency>
             <groupId>au.com.dius</groupId>
-            <artifactId>pact-jvm-consumer-junit_2.11</artifactId>
-            <version>${pact.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>au.com.dius</groupId>
             <artifactId>pact-jvm-provider_2.11</artifactId>
             <version>${pact.version}</version>
             <scope>test</scope>
@@ -137,7 +161,98 @@
             <version>${pact.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-consumer-junit_2.11</artifactId>
+            <version>${pact.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>au.com.dius</groupId>
+                <artifactId>pact-jvm-provider-maven_2.12</artifactId>
+                <version>3.5.11</version>
+                <configuration>
+                    <pactDirectory>../target/pacts</pactDirectory>
+                    <pactBrokerUrl>http://127.0.0.1:8888/</pactBrokerUrl>
+                    <!--<pactBrokerUrl>http://172.28.50.206:88/</pactBrokerUrl>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                    <exclude>**/*.yml</exclude>
+                    <exclude>**/*.yaml</exclude>
+                    <exclude>**/*.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                    <exclude>**/*.yml</exclude>
+                    <exclude>**/*.yaml</exclude>
+                    <exclude>**/*.xml</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+
+    </build>
 
 </project>

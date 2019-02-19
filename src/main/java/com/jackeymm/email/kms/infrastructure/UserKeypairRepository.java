@@ -1,17 +1,15 @@
 package com.jackeymm.email.kms.infrastructure;
 
-import com.jackeymm.email.kms.KeyPair;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.jackeymm.email.kms.domains.KeyPair;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserKeypairRepository {
 
-    @Insert("insert into user_keypair (temail, token, public_key, private_key) values(#{temail}, #{token}, #{keyPair.publicKey}, #{keyPair.privateKey})")
-    int register(@Param("temail") String temail, @Param("token") String token, @Param("keyPair") KeyPair keyPair);
+    @Insert("insert into user_keypair (email, token, public_key, private_key, create_time, update_time) values(#{keyPair.email}, #{keyPair.token}, #{keyPair.publicKey}, #{keyPair.privateKey}, #{keyPair.createTime}, #{keyPair.updateTime})")
+    @Options(useGeneratedKeys=true, keyProperty="keyPair.id", keyColumn="id")
+    int register(@Param("keyPair") KeyPair keyPair);
 
-    @Select("select * from user_keypair where temail = #{temail} and token = #{token}")
-    KeyPair getByTemail(String temail, String token);
+    @Select("select id, email, token, public_key as publicKey, private_key as privateKey, create_time as createTime, update_time as updateTime from user_keypair where email = #{keyPair.email} and token = #{keyPair.token}")
+    KeyPair getByKeyPair(@Param("keyPair") KeyPair keyPair);
 }
