@@ -29,7 +29,7 @@ import static org.springframework.http.HttpStatus.*;
 public class UserKeyPairControllerTest {
 
     private final String token = "token";
-    private final String temail = "temail";
+    private final String email = "email";
 
 
     @Autowired
@@ -37,14 +37,14 @@ public class UserKeyPairControllerTest {
 
     @Test
     public void registerUserKeyPairFailed(){
-        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof(token,temail);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof(token,email);
         ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
         assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
     }
 
     @Test
     public void registerUserKeyPairSuccessfully(){
-        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("kmsToken","abc@temail");
+        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("smsToken","abc@email");
         ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
         assertThat(responseEntity.getStatusCode()).isEqualTo(CREATED);
 
@@ -52,7 +52,7 @@ public class UserKeyPairControllerTest {
 
     @Test
     public void registerUserKeyPairExist(){
-        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("kmsToken","ac@temail");
+        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("smsToken","ac@email");
         ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
         assertThat(responseEntity.getStatusCode()).isEqualTo(CREATED);
         ResponseEntity<Response<KeyPair>> responseEntity1 = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
@@ -61,29 +61,29 @@ public class UserKeyPairControllerTest {
     }
 
     @Test
-    public void queryUserKeyPairByTemailFailed(){
-        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/temails/{temail}", GET, null, responseType(),"asdf", temail);
+    public void queryUserKeyPairByEmailFailed(){
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/emails/{email}", GET, null, responseType(),"asdf", email);
         assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
     }
 
     @Test
-    public void queryUserKeyPairByTemailNotFound(){
-        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/temails/{temail}", GET, null, responseType(),"kmsToken", temail);
+    public void queryUserKeyPairByEmailNotFound(){
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/emails/{email}", GET, null, responseType(),"smsToken", email);
         assertThat(responseEntity.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void queryUserKeyPairByTemailSuccessfully(){
-        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("kmsToken","ab@temail");
+    public void queryUserKeyPairByEmailSuccessfully(){
+        HttpEntity<MultiValueMap<String, String>> httpEntity = httpEntityof("smsToken","ab@email");
         ResponseEntity<Response<KeyPair>> registerResponseEntity = testRestTemplate.exchange("/register", POST, httpEntity, responseType());
         assertThat(registerResponseEntity.getStatusCode()).isEqualTo(CREATED);
-        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/temails/{temail}", GET, null, responseType(),"kmsToken", "ab@temail");
+        ResponseEntity<Response<KeyPair>> responseEntity = testRestTemplate.exchange("/queryKeyPair/token/{token}/emails/{email}", GET, null, responseType(),"smsToken", "ab@email");
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
         KeyPair keyPair = responseEntity.getBody().getData();
 
-        assertThat(keyPair.getTemail()).isEqualTo("ab@temail");
-        assertThat(keyPair.getToken()).isEqualTo("kmsToken");
+        assertThat(keyPair.getEmail()).isEqualTo("ab@email");
+        assertThat(keyPair.getToken()).isEqualTo("smsToken");
         assertThat(keyPair.getPublicKey()).isNotNull();
         assertThat(keyPair.getPrivateKey()).isNotNull();
     }
@@ -93,12 +93,12 @@ public class UserKeyPairControllerTest {
         return new ParameterizedTypeReference<Response<KeyPair>>(){};
     }
 
-    private HttpEntity httpEntityof(String token, String temail) {
+    private HttpEntity httpEntityof(String token, String email) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> multiValuedMap = new LinkedMultiValueMap<String, String>();
-        multiValuedMap.add("temail",temail);
+        multiValuedMap.add("email",email);
         multiValuedMap.add("token",token);
 
         return new HttpEntity(multiValuedMap, httpHeaders);

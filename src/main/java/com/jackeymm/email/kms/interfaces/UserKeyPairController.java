@@ -2,7 +2,7 @@ package com.jackeymm.email.kms.interfaces;
 
 
 import com.jackeymm.email.kms.domains.KeyPair;
-import com.jackeymm.email.kms.exceptions.KmsTemailNoFoundException;
+import com.jackeymm.email.kms.exceptions.KmsEmailNoFoundException;
 import com.jackeymm.email.kms.service.KmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class UserKeyPairController {
 
     @Autowired
     private KmsService kmsService;
-    private String TE_MAIL = "temail";
+    private String EMAIL = "email";
     private String TOKEN = "token";
 
     @PostMapping(value = "/register", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_FORM_URLENCODED_VALUE)
@@ -26,21 +26,21 @@ public class UserKeyPairController {
     Mono<Response<KeyPair>> register(ServerWebExchange exchange){
         return exchange.getFormData().map(params -> {
             String token = params.getFirst(TOKEN);
-            String temail = params.getFirst(TE_MAIL);
+            String email = params.getFirst(EMAIL);
 
-            KeyPair keyPair = kmsService.register(token,temail);
+            KeyPair keyPair = kmsService.register(token,email);
 
             return Response.ok(keyPair);
         });
 
     }
 
-    @GetMapping(value = "/queryKeyPair/token/{token}/temails/{temail}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/queryKeyPair/token/{token}/emails/{email}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    Mono<Response<KeyPair>> queryKeyPair(@PathVariable String token, @PathVariable String temail){
-        return Mono.fromSupplier(() -> kmsService.queryKeyPair(token,temail)
+    Mono<Response<KeyPair>> queryKeyPair(@PathVariable String token, @PathVariable String email){
+        return Mono.fromSupplier(() -> kmsService.queryKeyPair(token,email)
                 .map(Response::ok)
-                .orElseThrow(() -> new KmsTemailNoFoundException("No such TeMail keyPair found: " + temail)));
+                .orElseThrow(() -> new KmsEmailNoFoundException("No such email keyPair found: " + email)));
     }
 
 }

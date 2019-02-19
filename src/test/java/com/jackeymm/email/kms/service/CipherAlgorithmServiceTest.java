@@ -21,16 +21,16 @@ public class CipherAlgorithmServiceTest {
 
     @Test
     public void generateKeyPairSuccessfully(){
-        KeyPair keyPair = cipherAlgorithmService.generateKey("kmsToken", "a@temail");
+        KeyPair keyPair = cipherAlgorithmService.generateKey("smsToken", "a@email");
         assertThat(keyPair).isNotNull();
         assertThat(keyPair.getPrivateKey()).isNotNull();
         assertThat(keyPair.getPublicKey()).isNotNull();
     }
 
     @Test
-    public void generateDifferentKeyPairByDifferentTemail(){
-        KeyPair keyPair1 = cipherAlgorithmService.generateKey("kmsToken", "a@temail");
-        KeyPair keyPair2 = cipherAlgorithmService.generateKey("kmsToken", "ab@temail");
+    public void generateDifferentKeyPairByDifferentEmail(){
+        KeyPair keyPair1 = cipherAlgorithmService.generateKey("smsToken", "a@email");
+        KeyPair keyPair2 = cipherAlgorithmService.generateKey("smsToken", "ab@email");
         assertThat(keyPair1).isNotNull();
         assertThat(keyPair2).isNotNull();
         assertThat(keyPair1.getPrivateKey()).isNotEqualTo(keyPair2.getPrivateKey());

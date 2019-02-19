@@ -4,19 +4,19 @@ public class UserKeyPariInput {
 
     private final String domain;
 
-    private final String temail;
+    private final String email;
 
 
-    public UserKeyPariInput(String domain, String temail) {
+    public UserKeyPariInput(String domain, String email) {
         this.domain = domain;
-        this.temail = temail;
+        this.email = email;
     }
 
     public String getDomain() {
         return domain;
     }
 
-    public String getTemail() {
-        return temail;
+    public String getEmail() {
+        return email;
     }
 }

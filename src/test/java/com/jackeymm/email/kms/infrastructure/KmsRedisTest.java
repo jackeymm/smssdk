@@ -29,7 +29,7 @@ public class KmsRedisTest {
 
     @Test
     public void setRedisSuccessfully(){
-        KeyPair keyPair = new KeyPair(1L,"pubk", "priK","tokan","a@temail", 0L,0L);
+        KeyPair keyPair = new KeyPair(1L,"pubk", "priK","tokan","a@email", 0L,0L);
         String cacheKey = "test" + Math.random();
         System.out.println("cacheKey : " + cacheKey);
         boolean setCacheResult = kmsRedis.setCache(cacheKey,keyPair);

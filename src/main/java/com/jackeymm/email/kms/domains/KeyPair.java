@@ -7,7 +7,7 @@ public class KeyPair implements Serializable {
     private final String privateKey;
     private final String publicKey;
     private final String token;
-    private final String temail;
+    private final String email;
     private final Long createTime;
     private final Long updateTime;
 
@@ -17,36 +17,36 @@ public class KeyPair implements Serializable {
         this.updateTime = null;
         this.publicKey = null;
         this.token = null;
-        this.temail = null;
+        this.email = null;
         this.createTime = null;
     }
 
-    public KeyPair(String token, String temail){
+    public KeyPair(String token, String email){
         this.id = null;
         this.privateKey = null;
         this.updateTime = null;
         this.publicKey = null;
         this.token = token;
-        this.temail = temail;
+        this.email = email;
         this.createTime = null;
     }
 
-    public KeyPair(Long id, String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
+    public KeyPair(Long id, String publicKey, String privateKey, String token, String email, Long createTime, Long updateTime) {
         this.id = id;
         this.publicKey = publicKey;
         this.privateKey = privateKey;
         this.token = token;
-        this.temail = temail;
+        this.email = email;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
 
-    public KeyPair(String publicKey, String privateKey, String token, String temail, Long createTime, Long updateTime) {
+    public KeyPair(String publicKey, String privateKey, String token, String email, Long createTime, Long updateTime) {
         this.id = null;
         this.publicKey = publicKey;
         this.privateKey = privateKey;
         this.token = token;
-        this.temail = temail;
+        this.email = email;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -55,8 +55,8 @@ public class KeyPair implements Serializable {
         return token;
     }
 
-    public String getTemail() {
-        return temail;
+    public String getEmail() {
+        return email;
     }
 
     public Long getCreateTime() {

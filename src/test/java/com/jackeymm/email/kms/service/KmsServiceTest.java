@@ -20,8 +20,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles({"dark", "h2"})
 public class KmsServiceTest {
 
-    private final String token ="kmsToken";
-    private final String temail= RandomUtils.nextInt(1, 10000) + "@temail.com";
+    private final String token ="smsToken";
+    private final String email= RandomUtils.nextInt(1, 10000) + "@email.com";
 
     @Autowired
     private KmsService kmsService;
@@ -33,7 +33,7 @@ public class KmsServiceTest {
 
     @Test
     public void shouldRegisterSuccessfully() {
-        KeyPair keyPair = kmsService.register(this.token, "a10@temail");
+        KeyPair keyPair = kmsService.register(this.token, "a10@email");
         assertThat(keyPair).isNotNull();
     }
 
@@ -45,8 +45,8 @@ public class KmsServiceTest {
 
     @Test
     public void queryKeyPairSuccessfully() {
-        kmsService.register(token, temail);
-        Optional<KeyPair> entry = kmsService.queryKeyPair(token, temail);
+        kmsService.register(token, email);
+        Optional<KeyPair> entry = kmsService.queryKeyPair(token, email);
         assertThat(entry).isPresent();
 
     }

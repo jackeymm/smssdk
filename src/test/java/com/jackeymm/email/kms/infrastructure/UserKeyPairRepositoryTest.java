@@ -16,13 +16,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles({"dark", "h2"})
 public class UserKeyPairRepositoryTest {
 
-    private final KeyPair keyPair = new KeyPair(1L, "abc", "def", "kmsToken", "a@temail", 0L, 0L);
+    private final KeyPair keyPair = new KeyPair(1L, "abc", "def", "smsToken", "a@email", 0L, 0L);
     @Autowired
     private UserKeypairRepository userKeyPairRepository;
 
     @Test
     public void registerUserKeyPairSuccessfully(){
-        KeyPair keyPair = new KeyPair(1L, "abc", "def", "kmsToken", "b@temail", 0L, 0L);
+        KeyPair keyPair = new KeyPair(1L, "abc", "def", "smsToken", "b@email", 0L, 0L);
         int result = userKeyPairRepository.register(keyPair);
 
         assertThat(result).isEqualTo(1);

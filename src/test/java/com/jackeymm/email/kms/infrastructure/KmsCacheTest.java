@@ -41,19 +41,19 @@ public class KmsCacheTest {
 
     @Test
     public void setKeyPairCacheSuccessfully(){
-        KeyPair keyPair = new KeyPair(1L,"pubk", "priK","tokan","a@temail", 0L,0L);
-        boolean setCacheResult = kmsCache.setCache(keyPair.getTemail(), keyPair);
+        KeyPair keyPair = new KeyPair(1L,"pubk", "priK","tokan","a@email", 0L,0L);
+        boolean setCacheResult = kmsCache.setCache(keyPair.getEmail(), keyPair);
         assertThat(setCacheResult).isEqualTo(true);
 
-        Optional op = kmsCache.getCache(keyPair.getTemail());
+        Optional op = kmsCache.getCache(keyPair.getEmail());
         assertThat(op.isPresent()).isEqualTo(true);
         assertThat(op.get()).isEqualToComparingFieldByField(keyPair);
 
-        Optional opRedis = kmsRedis.getCache(keyPair.getTemail());
+        Optional opRedis = kmsRedis.getCache(keyPair.getEmail());
         assertThat(opRedis.isPresent()).isEqualTo(true);
         assertThat(opRedis.get()).isEqualToComparingFieldByField(keyPair);
 
-//        Optional opEh = kmsEhCache.get(keyPair.getTemail());
+//        Optional opEh = kmsEhCache.get(keyPair.getEmail());
 //        assertThat(opEh.isPresent()).isEqualTo(true);
 //        assertThat(opEh.get()).isEqualToComparingFieldByField(keyPair);
 

@@ -28,28 +28,28 @@ public class KmsService {
         this.userKeypairRepository = userKeypairRepository;
     }
 
-    public KeyPair register(String token, String temail) {
+    public KeyPair register(String token, String email) {
         this.checkToken(token);
-        KeyPair keyPair = this.algorithm.generateKey(token, temail);
+        KeyPair keyPair = this.algorithm.generateKey(token, email);
 
         int result = userKeypairRepository.register(keyPair);
 
         if(1 == result){
-            kmsCache.setCache(keyPair.getTemail(), keyPair);
+            kmsCache.setCache(keyPair.getEmail(), keyPair);
             return keyPair;
         }else{
             throw new KmsSystemException("register failed ~~");
         }
     }
 
-    public Optional<KeyPair> queryKeyPair(String token,String temail) {
+    public Optional<KeyPair> queryKeyPair(String token,String email) {
         this.checkToken(token);
-        KeyPair keyPair = new KeyPair(token, temail);
-        Optional olCache = kmsCache.getCache(temail);
+        KeyPair keyPair = new KeyPair(token, email);
+        Optional olCache = kmsCache.getCache(email);
         if(!olCache.isPresent()){
             KeyPair result = userKeypairRepository.getByKeyPair(keyPair);
             if(!ObjectUtils.isEmpty(result)){
-                kmsCache.setCache(keyPair.getTemail(), keyPair);
+                kmsCache.setCache(keyPair.getEmail(), keyPair);
             }
             return Optional.ofNullable(result);
         }else{
@@ -59,7 +59,7 @@ public class KmsService {
     }
 
     private void checkToken(String token){
-        if (!"kmsToken".equals(token)) {
+        if (!"smsToken".equals(token)) {
             throw new KmsTenantNoFoundException("token is not exist~");
         }
     }

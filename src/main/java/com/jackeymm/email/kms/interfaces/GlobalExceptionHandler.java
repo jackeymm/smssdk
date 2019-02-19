@@ -1,6 +1,6 @@
 package com.jackeymm.email.kms.interfaces;
 
-import com.jackeymm.email.kms.exceptions.KmsTemailNoFoundException;
+import com.jackeymm.email.kms.exceptions.KmsEmailNoFoundException;
 import com.jackeymm.email.kms.exceptions.KmsTenantNoFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +49,10 @@ class GlobalExceptionHandler {
     return Response.failed(INTERNAL_SERVER_ERROR, ex.getMessage());
   }
 
-  @ExceptionHandler(KmsTemailNoFoundException.class)
+  @ExceptionHandler(KmsEmailNoFoundException.class)
   @ResponseStatus(FORBIDDEN)
-  Response<String> handleKmsTemailNoFoundException(KmsTemailNoFoundException ex) {
-    LOG.error("KmsTemailNoFoundException ： ", ex);
+  Response<String> handleKmsEmailNoFoundException(KmsEmailNoFoundException ex) {
+    LOG.error("KmsEmailNoFoundException ： ", ex);
     return Response.failed(FORBIDDEN, ex.getMessage());
   }
 

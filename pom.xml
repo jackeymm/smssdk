@@ -151,12 +151,6 @@
         </dependency>
         <dependency>
             <groupId>au.com.dius</groupId>
-            <artifactId>pact-jvm-consumer-junit_2.11</artifactId>
-            <version>${pact.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>au.com.dius</groupId>
             <artifactId>pact-jvm-provider_2.11</artifactId>
             <version>${pact.version}</version>
             <scope>test</scope>
@@ -167,6 +161,13 @@
             <version>${pact.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-consumer-junit_2.11</artifactId>
+            <version>${pact.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -186,6 +187,24 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>au.com.dius</groupId>
+                <artifactId>pact-jvm-provider-maven_2.12</artifactId>
+                <version>3.5.11</version>
+                <configuration>
+                    <pactDirectory>../target/pacts</pactDirectory>
+                    <pactBrokerUrl>http://127.0.0.1:8888/</pactBrokerUrl>
+                    <!--<pactBrokerUrl>http://172.28.50.206:88/</pactBrokerUrl>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
 
