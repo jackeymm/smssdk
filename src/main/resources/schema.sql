@@ -1,10 +1,12 @@
-create table user_keypair(
-  id bigInt(20) not null auto_increment comment '主键id',
-  temail varchar(32) not null default '' comment 'temail 地址',
-  token varchar(64) not null default '' comment 'token',
-  private_key varchar(128) not null default '' comment '私钥',
-  public_key varchar(128) not null default '' comment '公钥',
-  create_time bigInt(20)  not null default 0 comment '创建时间',
-  update_time bigInt(20)  not null default 0 comment '创建时间',
-  primary key(`id`)
-) ENGINE=InnoDB default CHARSET= utf8mb4 comment='temail密钥表';
+CREATE TABLE IF NOT EXISTS `user_keypair` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `email` varchar(32) NOT NULL DEFAULT '' COMMENT 'email 地址',
+  `token` varchar(64) NOT NULL DEFAULT '' COMMENT 'token',
+  `private_key` varchar(512) NOT NULL DEFAULT '' COMMENT '私钥',
+  `public_key` varchar(512) NOT NULL DEFAULT '' COMMENT '公钥',
+  `create_time` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `email_token_index` (`email`,`token`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;

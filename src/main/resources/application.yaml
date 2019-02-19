@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+
+spring:
+  datasource:
+    username: root
+    password: xxyp123
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/sms_sdk?characterEncoding=UTF-8
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+#    password:
+    timeout: 10000s
+    jedis:
+      pool:
+        min-idle: 10
+        max-idle: 200
+        max-active: 200
+        max-wait: -1s
